@@ -1,113 +1,260 @@
-# Module 13 Mini-Project: Travel Planner
+# 13 Object-Relational Mapping (ORM): E-Commerce Back End
 
-In this mini-project, you will work with a group to build an API using Node.js, Express.js, MySQL, and Sequelize, and you will deploy it to Heroku.
+## Your Task
 
-## User Stories
+Internet retail, also known as **e-commerce**, is the largest sector of the electronics industry, generating an estimated $29 trillion in 2019. E-commerce platforms like Shopify and WooCommerce provide a suite of services to businesses of all sizes. Due to their prevalence, understanding the fundamental architecture of these platforms will benefit you as a full-stack web developer.
 
-* As a traveller, I want to be able to create an account.
+Your task is to build the back end for an e-commerce site by modifying starter code. You’ll configure a working Express.js API to use Sequelize to interact with a MySQL database.
 
-* As a traveller, I want to be able to create a new trip for myself using a location from a list.
+Because this application won’t be deployed, you’ll also need to provide a link to a walkthrough video that demonstrates its functionality and all of the acceptance criteria being met. You’ll need to submit a link to the video and add it to the readme of your project.
 
-* As a traveller, I want to be able to create and view location data.
+## User Story
 
-* As a traveller, I want to be able to view all of the trips I'm taking, along with their locations.
+```md
+AS A manager at an internet retail company
+I WANT a back end for my e-commerce website that uses the latest technologies
+SO THAT my company can compete with other e-commerce companies
+```
 
 ## Acceptance Criteria
 
-* It's done when the GET route `/api/travellers` returns all traveller data without associated trips in Insomnia.
+```md
+GIVEN a functional Express.js API
+WHEN I add my database name, MySQL username, and MySQL password to an environment variable file
+THEN I am able to connect to a database using Sequelize
+WHEN I enter schema and seed commands
+THEN a development database is created and is seeded with test data
+WHEN I enter the command to invoke the application
+THEN my server is started and the Sequelize models are synced to the MySQL database
+WHEN I open API GET routes in Insomnia for categories, products, or tags
+THEN the data for each of these routes is displayed in a formatted JSON
+WHEN I test API POST, PUT, and DELETE routes in Insomnia
+THEN I am able to successfully create, update, and delete data in my database
+```
 
-* It's done when the POST route `/api/travellers` creates traveller data and returns a successful response in Insomnia.
+## Mock-Up
 
-* It's done when the GET route `/api/travellers/:id` returns a single traveller's data with their associated trips and a list of locations in Insomnia. 
+The following animation shows the application's GET routes to return all categories, all products, and all tags being tested in Insomnia:
 
-* It's done when the DELETE route `/api/travellers/:id` removes a traveller and any trips associated with them and returns a successful response in Insomnia.
+![In Insomnia, the user tests “GET tags,” “GET Categories,” and “GET All Products.”.](./Assets/13-orm-homework-demo-01.gif)
 
-* It's done when the GET route `/api/locations` returns all location data in Insomnia.
+The following animation shows the application's GET routes to return a single category, a single product, and a single tag being tested in Insomnia:
 
-* It's done when the POST route `/api/locations` creates location data and returns a successful response in Insomnia.
+![In Insomnia, the user tests “GET tag by id,” “GET Category by ID,” and “GET One Product.”](./Assets/13-orm-homework-demo-02.gif)
 
-* It's done when the GET route `/api/locations/:id` returns a single location's data, with its associated trips, in Insomnia. 
+The following animation shows the application's POST, PUT, and DELETE routes for categories being tested in Insomnia:
 
-* It's done when the DELETE route `/api/locations/:id` removes a location and any trips associated with it and returns a successful response in Insomnia.
+![In Insomnia, the user tests “DELETE Category by ID,” “CREATE Category,” and “UPDATE Category.”](./Assets/13-orm-homework-demo-03.gif)
 
-* It's done when the POST route `/api/trips` creates trip data between associated travellers and locations.
+Your walkthrough video should also show the POST, PUT, and DELETE routes for products and tags being tested in Insomnia.
 
-* It's done when the DELETE route `/api/trips/:id` removes a trip and returns a successful response in Insomnia.
+## Getting Started
 
-* It's done when the API is successfully deployed to Heroku with a MySQL database.
+This Challenge will require a video submission. Refer to the [Fullstack Blog Video Submission Guide](https://coding-boot-camp.github.io/full-stack/computer-literacy/video-submission-guide) for additional guidance on creating a video.
 
-## Specifications 
+You’ll need to use the [MySQL2](https://www.npmjs.com/package/mysql2) and [Sequelize](https://www.npmjs.com/package/sequelize) packages to connect your Express.js API to a MySQL database and the [dotenv](https://www.npmjs.com/package/dotenv) package to use environment variables to store sensitive data.
 
-* Database models should have the following fields and associations:
+Use the `schema.sql` file in the `db` folder to create your database with MySQL shell commands. Use environment variables to store sensitive data like your MySQL username, password, and database name.
 
-  * `Traveller`
+### Database Models
 
-    * `id`: primary key
+Your database should contain the following four models, including the requirements listed for each model:
 
-    * `name`
-      
-    * `email`
+* `Category`
 
-  * `Location`
+  * `id`
 
-    * `id`: primary key
-    
-    * `location_name`
+    * Integer.
+  
+    * Doesn't allow null values.
+  
+    * Set as primary key.
+  
+    * Uses auto increment.
 
-  * `Trips`
-      
-    * `id`: primary key
+  * `category_name`
+  
+    * String.
+  
+    * Doesn't allow null values.
 
-    * `trip_budget` 
-      
-    * `traveller_amount`
-      
-    * `traveller_id`: non-unique foreign key that references the `Traveller` model's `id` field (`Traveller.id`)
+* `Product`
 
-    * `location_id`: non-unique foreign key that references the `Location` model's `id` field (`Location.id`)
+  * `id`
+  
+    * Integer.
+  
+    * Doesn't allow null values.
+  
+    * Set as primary key.
+  
+    * Uses auto increment.
 
-  * Travellers have many locations, and locations have many travellers through trips (many-to-many association).
+  * `product_name`
+  
+    * String.
+  
+    * Doesn't allow null values.
 
-  * Set the `unique` flag to `false` to avoid a SQL error when creating the many-to-many relationship, because travellers can take multiple trips.
+  * `price`
+  
+    * Decimal.
+  
+    * Doesn't allow null values.
+  
+    * Validates that the value is a decimal.
 
-## 📝 Notes
+  * `stock`
+  
+    * Integer.
+  
+    * Doesn't allow null values.
+  
+    * Set a default value of `10`.
+  
+    * Validates that the value is numeric.
 
-Refer to the documentation: 
+  * `category_id`
+  
+    * Integer.
+  
+    * References the `Category` model's `id`.
 
-* [Sequelize documentation on many-to-many relationships](https://sequelize.org/master/manual/assocs.html#many-to-many-relationships)
+* `Tag`
 
-* [The Full-Stack Blog guide to deploying with Heroku and MySQL](https://coding-boot-camp.github.io/full-stack/heroku/deploy-with-heroku-and-mysql)
+  * `id`
+  
+    * Integer.
+  
+    * Doesn't allow null values.
+  
+    * Set as primary key.
+  
+    * Uses auto increment.
 
-Use the following sample data as the request body POST `/api/trips` route:
+  * `tag_name`
+  
+    * String.
 
-  ```json
-  {
-    "trip_budget": 2000.50,
-    "traveller_amount": 6,
-    "traveller_id": 1,
-    "location_id": 2
-  }
-  ```
+* `ProductTag`
 
----
+  * `id`
 
-## 💡 Hints
+    * Integer.
 
-* What model association option can we set to automatically delete associated data? 
+    * Doesn't allow null values.
 
-* How can we use the data in `Develop/seeds` to provide starter data for locations and travellers and not have to create it ourselves? 
+    * Set as primary key.
 
-* If we're deploying this to Heroku, can we work on this from within the class repository, or should we make a new GitHub repo?
+    * Uses auto increment.
 
-## 🏆 Bonus
+  * `product_id`
 
-If you have completed this activity, work through the following challenge with your partner to further your knowledge:
+    * Integer.
 
-* Add validations to all of the model data.
+    * References the `Product` model's `id`.
 
-* Create a password hashing and login system for travellers.
+  * `tag_id`
 
-* Set up a **super many-to-many relationship** between travellers, locations, and trips to provide more querying options. To learn more, see the [Sequelize documentation on advanced many-to-many relationships](https://sequelize.org/master/manual/advanced-many-to-many.html).
+    * Integer.
+
+    * References the `Tag` model's `id`.
+
+### Associations
+
+You'll need to execute association methods on your Sequelize models to create the following relationships between them:
+
+* `Product` belongs to `Category`, and `Category` has many `Product` models, as a category can have multiple products but a product can only belong to one category.
+
+* `Product` belongs to many `Tag` models, and `Tag` belongs to many `Product` models. Allow products to have multiple tags and tags to have many products by using the `ProductTag` through model.
+
+> **Hint:** Make sure you set up foreign key relationships that match the column we created in the respective models.
+
+### Fill Out the API Routes to Perform RESTful CRUD Operations
+
+Fill out the unfinished routes in `product-routes.js`, `tag-routes.js`, and `category-routes.js` to perform create, read, update, and delete operations using your Sequelize models.
+
+Note that the functionality for creating the many-to-many relationship for products has already been completed for you.
+
+> **Hint**: Be sure to look at the mini-project code for syntax help and use your model's column definitions to figure out what `req.body` will be for POST and PUT routes!
+
+### Seed the Database
+
+After creating the models and routes, run `npm run seed` to seed data to your database so that you can test your routes.
+
+### Sync Sequelize to the Database on Server Start
+
+Create the code needed in `server.js` to sync the Sequelize models to the MySQL database on server start.
+
+## Grading Requirements
+
+> **Note**: If a Challenge assignment submission is marked as “0”, it is considered incomplete and will not count towards your graduation requirements. Examples of incomplete submissions include the following:
+>
+> * A repository that has no code
+>
+> * A repository that includes a unique name but nothing else
+>
+> * A repository that includes only a README file but nothing else
+>
+> * A repository that only includes starter code
+
+This Challenge is graded based on the following criteria: 
+
+### Deliverables: 10%
+
+* The GitHub repository containing your application code.
+
+### Walkthrough Video: 37%
+
+* A walkthrough video that demonstrates the functionality of the e-commerce back end must be submitted, and a link to the video should be included in your readme file.
+
+* The walkthrough video must show all of the technical acceptance criteria being met.
+
+* The walkthrough video must demonstrate how to create the schema from the MySQL shell.
+
+* The walkthrough video must demonstrate how to seed the database from the command line.
+
+* The walkthrough video must demonstrate how to start the application’s server.
+
+* The walkthrough video must demonstrate GET routes for all categories, all products, and all tags being tested in Insomnia.
+
+* The walkthrough video must demonstrate GET routes for a single category, a single product, and a single tag being tested in Insomnia.
+
+* The walkthrough video must demonstrate POST, PUT, and DELETE routes for categories, products, and tags being tested in Insomnia.
+
+### Technical Acceptance Criteria: 40%
+
+* Satisfies all of the preceding acceptance criteria plus the following:
+
+  * Connects to a MySQL database using the [MySQL2](https://www.npmjs.com/package/mysql) and [Sequelize](https://www.npmjs.com/package/sequelize) packages.
+
+  * Stores sensitive data, like a user’s MySQL username, password, and database name, using environment variables through the [dotenv](https://www.npmjs.com/package/dotenv) package.
+
+  * Syncs Sequelize models to a MySQL database on the server start.
+
+  * Includes column definitions for all four models outlined in the Challenge instructions.
+
+  * Includes model associations outlined in the Challenge instructions.
+
+### Repository Quality: 13%
+
+* Repository has a unique name.
+
+* Repository follows best practices for file structure and naming conventions.
+
+* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
+
+* Repository contains multiple descriptive commit messages.
+
+* Repository contains quality readme with description and a link to a walkthrough video.
+
+## Review
+
+You are required to submit BOTH of the following for review:
+
+* A walkthrough video demonstrating the functionality of the application and all of the acceptance criteria being met.
+
+* The URL of the GitHub repository. Give the repository a unique name and include a readme describing the project.
 
 ---
 © 2023 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.

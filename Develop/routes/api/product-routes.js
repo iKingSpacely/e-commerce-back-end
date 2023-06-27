@@ -8,14 +8,14 @@ router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   try {
-    const allProducts = await Product.findAll({
-      include: [{ model: Category, model: Tag, as: 'many_tags' }]
+    const prodData = await Product.findAll({
+      include: [{ model: Category}, { model: Tag}],
     });
 
-    if (!allProducts) {
-      res.status(404).json({ message: 'Cannot find product ID!' });
+    if (!prodData) {
+      res.status(404).json({ message: 'Cannot find product!' });
     }
-    res.status(200).json(allProducts);
+    res.status(200).json(prodData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -27,15 +27,15 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-    const oneProd = await Product.findByPk(req.params.id, {
-      include: [{ model: Category, model: Tag, as: 'many_tags' }]
+    const prodData = await Product.findByPk(req.params.id, {
+      include: [{ model: Category }, { model: Tag }],
     });
 
-    if (!oneProd) {
+    if (!prodData) {
       res.status(404).json({ message: 'Cannot find product ID!' });
       return;
     }
-    res.status(200).json(oneProd);
+    res.status(200).json(prodData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -121,17 +121,17 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
-    const deleteProd = await Product.destroy({
+    const prodData = await Product.destroy({
       where: {
         id: req.params.id
       }
     });
-    
-    if (!deleteProd) {
+
+    if (!prodData) {
       res.status(404).json({ message: 'Cannot find product ID' });
       return;
     }
-    res.status(200).json(deleteProd);
+    res.status(200).json(prodData);
   } catch (err) {
     res.status(500).json(err);
   }

@@ -19,7 +19,7 @@ Welcome to my e-commerce backend test! Using the existing starter code provided 
 Clone down the repo and run npm I to install the dependences provide in the package.json. Please make sure you create your own .env file, though, to run MySQL. In MySQL, run the following code: mysql –u (your username) -p, then provide your password when prompted. Following this, please run npm run seed and then nodemon (or node) server.js to make sure that the app is listening within insomnia to test the routes. 
 
 ## Contributions
-n/a
+Adam Colin is the only contributor
 
 ## Usage
 n/a

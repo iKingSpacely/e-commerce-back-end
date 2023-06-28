@@ -4,6 +4,7 @@
 Welcome to my e-commerce backend test! Using the existing starter code provided by the instructor staff, I was able to complete the backend for the e-commerce site using express API, sequelize, and MySQL database and ensure that it works through Insomnia. You can find these GET, POST, PUT, and DELETE tests in the walkthrough vide for all 3 sections (categories, products, and tags).
 
 ## Walkthrough Video
+[Untitled_ Jun 28, 2023 4_41 PM.webm](https://github.com/iKingSpacely/e-commerce-back-end/assets/131802980/d14eca8f-0850-44ad-b06a-c6c2278e53fc)
 
 
 ## Table of Contents
